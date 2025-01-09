@@ -14,11 +14,26 @@ struct SecondView: View {
                 .font(.title)
                 .padding()
 
-            ForEach(0..<6, id: \ .self) { index in
+            Button(action: {
+                print("RIS Viewer wybrany")
+            }) {
+                NavigationLink(destination: FunctionOneView()) {
+                    Text("RIS_Viewer")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
+
+            ForEach(1..<6, id: \.self) { index in
                 Button(action: {
                     print("Funkcja \(index + 1) wybrana")
                 }) {
-                    Text(["Funkcja 1", "Funkcja 2", "Funkcja 3", "Funkcja 4", "Funkcja 5", "Funkcja 6"][index])
+                    Text("Funkcja \(index + 1)")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding()
