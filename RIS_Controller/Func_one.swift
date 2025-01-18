@@ -44,9 +44,9 @@ struct FunctionOneView: View {
     }
 }
 
-struct FunctionOneView_Previews: PreviewProvider {
-    static var previews: some View {
-        FunctionOneView()
-    }
-}
+//struct FunctionOneView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FunctionOneView()
+//    }
+//}
 
