@@ -31,7 +31,7 @@ struct SecondView: View {
             Button(action: {
                 print("Send HEX Click")
             }) {
-                NavigationLink(destination: MQTTMessageView(mqttManager: MQTTManager())) {
+                NavigationLink(destination: FunctionTwoView(mqttManager: MQTTManager())) {
                     Text("Send HEX")
                         .font(.title3)
                         .foregroundColor(.white)
@@ -47,6 +47,20 @@ struct SecondView: View {
             }) {
                 NavigationLink(destination: FunctionThreeView()) {
                     Text("HEX Generator")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
+            Button(action: {
+                print("Predefined Click")
+            }) {
+                NavigationLink(destination: FunctionFourView()) {
+                    Text("Predefined")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding()

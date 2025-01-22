@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MQTTMessageView: View {
+struct FunctionTwoView: View {
     @State private var hexInput: String = ""
     @ObservedObject var mqttManager: MQTTManager
     @Environment(\.presentationMode) var presentationMode
