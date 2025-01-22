@@ -42,12 +42,16 @@ struct FunctionOneView: View {
             .background(Color.red)
             .foregroundColor(.white)
             .cornerRadius(10)
+            
+            Text("Oczekiwanie na wiadomość...")
+                .padding()
         }
         .padding()
         .onAppear {
             mqttManager.subscribeToTopic("topic/pattern")
         }
         .onReceive(mqttManager.$receivedMessage) { message in
+            print("Otrzymano wiadomość: \(message)")
             updateMatrixFromHex(message)
         }
     }
@@ -80,7 +84,7 @@ struct FunctionOneView: View {
                 hexString.append(String(format: "%X", hexValue))
             }
         }
-        mqttManager.sendMessage(to: "topic/pattern",message: hexString)
+        mqttManager.sendMessage(to: "topic/pattern", message: hexString)
     }
 }
 
@@ -98,10 +102,4 @@ extension Array {
     }
 }
 
-
-//struct FunctionOneView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FunctionOneView()
-//    }
-//}
 

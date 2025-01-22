@@ -25,46 +25,46 @@ class MQTTManager: ObservableObject {
     
     func sendMessage(to topic: String, message: String) {
         mqtt?.publish(topic, withString: message, qos: .qos1)
-        print("Wysłano do \(topic): \(message)")
+        print("Send to \(topic): \(message)")
     }
     
     func subscribeToTopic(_ topic: String) {
         mqtt?.subscribe(topic, qos: .qos1)
-        print("Zasubskrybowano: \(topic)")
+        print("Subscribed to: \(topic)")
     }
     
     func handleMQTTEvents() {
         mqtt?.didConnectAck = { mqtt, ack in
-            print("Połączono z MQTT! Ack: \(ack)")
+            print("Connected to MQTT! Ack: \(ack)")
         }
         
         mqtt?.didReceiveMessage = { mqtt, message, id in
             if let msgString = message.string {
                 DispatchQueue.main.async {
                     self.receivedMessage = msgString
-                    print("Otrzymano wiadomość z \(message.topic): \(msgString)")
+                    print("Received message from \(message.topic): \(msgString)")
                 }
             }
         }
         
         mqtt?.didPublishMessage = { mqtt, message, id in
-            print("Wiadomość opublikowana na \(message.topic): \(message.string ?? "Brak treści")")
+            print("Message published to \(message.topic): \(message.string ?? "No message")")
         }
         
         mqtt?.didPublishAck = { mqtt, id in
-            print("Potwierdzenie publikacji ID: \(id)")
+            print("Publish ack ID: \(id)")
         }
         
         mqtt?.didSubscribeTopics = { mqtt, success, failed in
-            print("Subskrypcja zakończona sukcesem: \(success), nieudane: \(failed)")
+            print("Subscribtion success: \(success)")
         }
         
         mqtt?.didUnsubscribeTopics = { mqtt, topics in
-            print("Odsubskrybowano z: \(topics)")
+            print("Unsubscribed from: \(topics)")
         }
         
         mqtt?.didDisconnect = { mqtt, err in
-            print("Rozłączono: \(err?.localizedDescription ?? "Brak błędu")")
+            print("Disconnected: \(err?.localizedDescription ?? "No error")")
         }
     }
 }
