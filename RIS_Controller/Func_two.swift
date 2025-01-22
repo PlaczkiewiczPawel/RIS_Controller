@@ -52,7 +52,7 @@ struct MQTTMessageView: View {
         let range = NSRange(location: 0, length: hexString.utf16.count)
         
         if regex?.firstMatch(in: hexString, options: [], range: range) != nil {
-            mqttManager.sendMessage(hexString)
+            mqttManager.sendMessage(to: "topic/pattern",message: hexString)
         } else {
             print("Błąd: Niepoprawny format HEX!")
         }

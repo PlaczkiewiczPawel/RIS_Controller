@@ -15,9 +15,22 @@
 		53C39A4E2D15E7E700B7DCBB /* RIS_Controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RIS_Controller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		53897E022D4184CC00C5C0C1 /* Exceptions for "RIS_Controller" folder in "RIS_Controller" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"RIS-Controller-Info.plist",
+			);
+			target = 53C39A4D2D15E7E700B7DCBB /* RIS_Controller */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		53C39A502D15E7E700B7DCBB /* RIS_Controller */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				53897E022D4184CC00C5C0C1 /* Exceptions for "RIS_Controller" folder in "RIS_Controller" target */,
+			);
 			path = RIS_Controller;
 			sourceTree = "<group>";
 		};
@@ -264,8 +277,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RIS_Controller/Preview Content\"";
+				DEVELOPMENT_TEAM = 254G2UXV24;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RIS-Controller-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -293,8 +308,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RIS_Controller/Preview Content\"";
+				DEVELOPMENT_TEAM = 254G2UXV24;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RIS-Controller-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

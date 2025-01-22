@@ -7,7 +7,6 @@
 import SwiftUI
 import CocoaMQTT
 
-
 class MQTTManager: ObservableObject {
     var mqtt: CocoaMQTT?
     @Published var receivedMessage: String = ""
@@ -24,32 +23,32 @@ class MQTTManager: ObservableObject {
         handleMQTTEvents()
     }
     
-    func sendMessage(_ message: String) {
-        mqtt?.publish("topic/test", withString: message, qos: .qos1)
-        print("Wysłano: \(message)")
+    func sendMessage(to topic: String, message: String) {
+        mqtt?.publish(topic, withString: message, qos: .qos1)
+        print("Wysłano do \(topic): \(message)")
     }
     
     func subscribeToTopic(_ topic: String) {
         mqtt?.subscribe(topic, qos: .qos1)
+        print("Zasubskrybowano: \(topic)")
     }
     
     func handleMQTTEvents() {
         mqtt?.didConnectAck = { mqtt, ack in
             print("Połączono z MQTT! Ack: \(ack)")
-            self.subscribeToTopic("topic/test")
         }
         
         mqtt?.didReceiveMessage = { mqtt, message, id in
             if let msgString = message.string {
                 DispatchQueue.main.async {
                     self.receivedMessage = msgString
-                    print("Otrzymano wiadomość: \(msgString)")
+                    print("Otrzymano wiadomość z \(message.topic): \(msgString)")
                 }
             }
         }
         
         mqtt?.didPublishMessage = { mqtt, message, id in
-            print("Wiadomość opublikowana: \(message.string ?? "Brak treści")")
+            print("Wiadomość opublikowana na \(message.topic): \(message.string ?? "Brak treści")")
         }
         
         mqtt?.didPublishAck = { mqtt, id in

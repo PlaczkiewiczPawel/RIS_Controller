@@ -80,7 +80,7 @@ struct FunctionOneView: View {
                 hexString.append(String(format: "%X", hexValue))
             }
         }
-        mqttManager.sendMessage(hexString)
+        mqttManager.sendMessage(to: "topic/pattern",message: hexString)
     }
 }
 
