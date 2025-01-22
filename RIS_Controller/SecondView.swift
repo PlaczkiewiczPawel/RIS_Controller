@@ -15,10 +15,10 @@ struct SecondView: View {
                 .padding()
 
             Button(action: {
-                print("RIS Viewer wybrany")
+                print("RIS Viewer Click")
             }) {
                 NavigationLink(destination: FunctionOneView()) {
-                    Text("RIS_Viewer")
+                    Text("RIS Viewer")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding()
@@ -29,7 +29,7 @@ struct SecondView: View {
                 }
             }
             Button(action: {
-                print("Funkcja 2")
+                print("Send HEX Click")
             }) {
                 NavigationLink(destination: MQTTMessageView(mqttManager: MQTTManager())) {
                     Text("Send HEX")
@@ -43,10 +43,10 @@ struct SecondView: View {
                 }
             }
             Button(action: {
-                print("RIS Viewer wybrany")
+                print("HEX Generator Click")
             }) {
-                NavigationLink(destination: FunctionOneView()) {
-                    Text("RIS_Viewer")
+                NavigationLink(destination: FunctionThreeView()) {
+                    Text("HEX Generator")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding()
