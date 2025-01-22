@@ -51,7 +51,7 @@ struct FunctionOneView: View {
             mqttManager.subscribeToTopic("topic/pattern")
         }
         .onReceive(mqttManager.$receivedMessage) { message in
-            print("Otrzymano wiadomość: \(message)")
+            print("Received message: \(message)")
             updateMatrixFromHex(message)
         }
     }
