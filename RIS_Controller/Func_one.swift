@@ -46,6 +46,7 @@ struct FunctionOneView: View {
                     }
                     .padding()
                     .onAppear {
+                        mqttManager.sendMessage(to: "topic/command", message: "?Pattern")
                         mqttManager.subscribeToTopic("topic/pattern")
                     }
                     .onReceive(mqttManager.$receivedMessage) { message in
