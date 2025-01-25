@@ -1,61 +1,125 @@
-//
-//  Func_one.swift
-//  RIS_Controller
-//
-//  Created by Paweł Płaczkiewicz on 09/01/2025.
-//
-
 import SwiftUI
 
 struct FunctionOneView: View {
+    @Environment(\.horizontalSizeClass) var hClass
     @State private var matrix = Array(repeating: Array(repeating: false, count: 16), count: 16)
     @ObservedObject var mqttManager = MQTTManager()
-    
+
     var body: some View {
-        VStack {
-            Text("RIS Viewer")
-                .font(.title)
-                .padding()
-            
-            VStack(spacing: 2) {
-                ForEach(0..<16, id: \ .self) { row in
-                    HStack(spacing: 2) {
-                        ForEach(0..<16, id: \ .self) { col in
-                            Rectangle()
-                                .fill(matrix[row][col] ? Color.green : Color.gray)
-                                .frame(width: 20, height: 20)
-                                .onTapGesture {
-                                    matrix[row][col].toggle()
-                                    sendMatrixToMQTT()
+        GeometryReader { geometry in
+            Group {
+                if hClass == .compact {
+                    // Widok w trybie portretowym
+                    VStack {
+                        Text("RIS Viewer")
+                            .font(.title)
+                            .padding()
+
+                        VStack(spacing: 2) {
+                            ForEach(0..<16, id: \.self) { row in
+                                HStack(spacing: 2) {
+                                    ForEach(0..<16, id: \.self) { col in
+                                        Rectangle()
+                                            .fill(matrix[row][col] ? Color.green : Color.gray)
+                                            .frame(width: 20, height: 20)
+                                            .onTapGesture {
+                                                matrix[row][col].toggle()
+                                                sendMatrixToMQTT()
+                                            }
+                                    }
                                 }
+                            }
                         }
+                        .padding()
+
+                        Button("Reset") {
+                            matrix = Array(repeating: Array(repeating: false, count: 16), count: 16)
+                            sendMatrixToMQTT()
+                        }
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+
+                        Text("Oczekiwanie na wiadomość...")
+                            .padding()
+                    }
+                    .padding()
+                    .onAppear {
+                        mqttManager.subscribeToTopic("topic/pattern")
+                    }
+                    .onReceive(mqttManager.$receivedMessage) { message in
+                        print("Received message: \(message)")
+                        updateMatrixFromHex(message)
+                    }
+                } else {
+                    // Widok w trybie poziomym (landscape)
+                    HStack(spacing: 16) {
+                        // Lewa kolumna: Tekst i przycisk
+                        VStack {
+                            Text("RIS Viewer")
+                                .font(.title)
+                                .padding(.bottom, 16)
+
+                            Button("Reset") {
+                                matrix = Array(repeating: Array(repeating: false, count: 16), count: 16)
+                                sendMatrixToMQTT()
+                            }
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+
+                            Spacer()
+
+                            Text("Oczekiwanie na wiadomość...")
+                                .multilineTextAlignment(.center)
+                                .padding()
+                        }
+                        .frame(width: geometry.size.width * 0.2) // 20% szerokości ekranu
+                        .padding()
+
+                        // Prawa kolumna: Wycentrowana macierz
+                        VStack {
+                            Spacer()
+
+                            let gridWidth = geometry.size.width * 0.70
+                            let gridHeight = geometry.size.height
+                            let gridSize = min(gridWidth / 16, gridHeight / 16) // Ustawiamy minimalny rozmiar
+
+                            VStack(spacing: 2) {
+                                ForEach(0..<16, id: \.self) { row in
+                                    HStack(spacing: 2) {
+                                        ForEach(0..<16, id: \.self) { col in
+                                            Rectangle()
+                                                .fill(matrix[row][col] ? Color.green : Color.gray)
+                                                .frame(width: gridSize, height: gridSize)
+                                                .onTapGesture {
+                                                    matrix[row][col].toggle()
+                                                    sendMatrixToMQTT()
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+
+                            Spacer()
+                        }
+                        .padding()
+                        .frame(width: geometry.size.width * 0.75, height: geometry.size.height)
+                    }
+                    .onAppear {
+                        mqttManager.subscribeToTopic("topic/pattern")
+                    }
+                    .onReceive(mqttManager.$receivedMessage) { message in
+                        print("Received message: \(message)")
+                        updateMatrixFromHex(message)
                     }
                 }
             }
-            .padding()
-            
-            Button("Reset") {
-                matrix = Array(repeating: Array(repeating: false, count: 16), count: 16)
-                sendMatrixToMQTT()
-            }
-            .padding()
-            .background(Color.red)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            
-            Text("Oczekiwanie na wiadomość...")
-                .padding()
-        }
-        .padding()
-        .onAppear {
-            mqttManager.subscribeToTopic("topic/pattern")
-        }
-        .onReceive(mqttManager.$receivedMessage) { message in
-            print("Received message: \(message)")
-            updateMatrixFromHex(message)
         }
     }
-    
+
     func updateMatrixFromHex(_ hexString: String) {
         var bitArray: [Bool] = []
         for char in hexString {
@@ -64,7 +128,7 @@ struct FunctionOneView: View {
                 bitArray.append(contentsOf: binaryString.map { $0 == "1" })
             }
         }
-        
+
         for row in 0..<16 {
             for col in 0..<16 {
                 let index = row * 16 + col
@@ -74,7 +138,7 @@ struct FunctionOneView: View {
             }
         }
     }
-    
+
     func sendMatrixToMQTT() {
         var hexString = ""
         for row in matrix {
@@ -101,5 +165,3 @@ extension Array {
         }
     }
 }
-
-
