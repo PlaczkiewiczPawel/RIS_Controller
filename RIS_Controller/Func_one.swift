@@ -110,6 +110,7 @@ struct FunctionOneView: View {
                         .frame(width: geometry.size.width * 0.75, height: geometry.size.height)
                     }
                     .onAppear {
+                        mqttManager.sendMessage(to: "topic/command", message: "?Pattern")
                         mqttManager.subscribeToTopic("topic/pattern")
                     }
                     .onReceive(mqttManager.$receivedMessage) { message in
