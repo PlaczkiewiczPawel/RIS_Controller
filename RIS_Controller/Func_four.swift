@@ -41,7 +41,7 @@ struct FunctionFourView: View {
                 } else {
                     // Tryb poziomy (landscape): Wyświetl przyciski w kilku kolumnach
                     let columns = 2 // Określamy liczbę kolumn w trybie poziomym
-                    let rows = (buttons.count + columns - 1) / columns // Liczymy ile będzie wierszy
+//                    let rows = (buttons.count + columns - 1) / columns // Liczymy ile będzie wierszy
                     
                     // Stosujemy LazyVGrid w celu wyświetlenia przycisków w kilku kolumnach
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: columns), spacing: 20) {
