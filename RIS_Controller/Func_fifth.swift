@@ -96,9 +96,7 @@ struct FunctionFifthView: View {
         .onAppear {
             // Subskrybujemy odpowiednie tematy MQTT
             mqttManager.sendMessage(to: "topic/command", message: "?Params")
-            mqttManager.subscribeToTopic("topic/serialNumber")
-            mqttManager.subscribeToTopic("topic/voltage")
-            mqttManager.subscribeToTopic("topic/pattern")
+            mqttManager.subscribeToTopic("topic/Params")
         }
         .onReceive(mqttManager.$receivedMessage) { message in
             print("Received message: \(message)")

@@ -9,22 +9,19 @@ import SwiftUI
 
 struct FunctionThreeView: View {
     @ObservedObject var mqttManager = MQTTManager()
-    @State private var generatedMessages: [String] = []
+    @State private var generatedMessages: [String] = UserDefaults.standard.stringArray(forKey: "GeneratedMessages") ?? []
     let topic = "topic/pattern"
     
-    @Environment(\.horizontalSizeClass) var hClass // Sprawdzanie, czy widok jest w trybie portretowym czy poziomym
+    @Environment(\.horizontalSizeClass) var hClass
 
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                // Tytuł
                 Text("Ostatnie 10 wygenerowanych wzorców")
                     .font(.headline)
                     .padding(.top, 20)
                 
-                // W trybie poziomym ustawiamy HStack, a w pionowym pozostawiamy VStack
                 if hClass == .compact {
-                    // Tryb portretowy - lista i przycisk w jednej kolumnie
                     VStack(spacing: 15) {
                         List(generatedMessages, id: \.self) { message in
                             Button(action: {
@@ -34,7 +31,7 @@ struct FunctionThreeView: View {
                                     .font(.system(.body, design: .monospaced))
                             }
                         }
-                        .frame(height: 300) // Określenie wysokości listy
+                        .frame(height: 300)
                         
                         Button(action: generateAndSendRandomHex) {
                             Text("Generowanie wzorca")
@@ -46,7 +43,6 @@ struct FunctionThreeView: View {
                         .padding(.bottom)
                     }
                 } else {
-                    // Tryb poziomy - HStack z listą i przyciskiem obok siebie
                     HStack(spacing: 20) {
                         VStack(spacing: 15) {
                             List(generatedMessages, id: \.self) { message in
@@ -57,7 +53,7 @@ struct FunctionThreeView: View {
                                         .font(.system(.body, design: .monospaced))
                                 }
                             }
-                            .frame(width: geometry.size.width * 0.45, height: 300) // Zmieniamy szerokość listy w trybie poziomym
+                            .frame(width: geometry.size.width * 0.45, height: 300)
                         }
                         
                         VStack {
@@ -67,7 +63,7 @@ struct FunctionThreeView: View {
                                     .background(Color.blue)
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
-                                    .frame(width: geometry.size.width * 0.45, height: 80) // Zwiększamy przycisk w trybie poziomym
+                                    .frame(width: geometry.size.width * 0.45, height: 80)
                             }
                             .padding(.bottom, 20)
                         }
@@ -87,15 +83,11 @@ struct FunctionThreeView: View {
             generatedMessages.removeFirst()
         }
         generatedMessages.append(randomHex)
+        
+        UserDefaults.standard.set(generatedMessages, forKey: "GeneratedMessages")
     }
     
     func sendMessage(_ message: String) {
         mqttManager.sendMessage(to: topic, message: message)
     }
 }
-
-//struct MQTTView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MQTTView()
-//    }
-//}
