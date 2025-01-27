@@ -11,13 +11,10 @@ struct FunctionFifthView: View {
     var body: some View {
         GeometryReader { geometry in
             if hClass == .compact {
-                // Tryb portretowy (VStack wyśrodkowane w poziomie, wyświetlane od góry)
                 VStack {
                     HStack {
-                        Spacer() // Spacer z lewej strony, aby wyśrodkować w poziomie
-                        
+                        Spacer()
                         VStack(spacing: 20) {
-                            // Serial Numbers
                             VStack(alignment: .leading) {
                                 Text("NR seryjny RISA:")
                                     .font(.headline)
@@ -27,8 +24,6 @@ struct FunctionFifthView: View {
                                 }
                             }
                             .padding()
-
-                            // Voltages
                             VStack(alignment: .leading) {
                                 Text("Napięcie:")
                                     .font(.headline)
@@ -38,8 +33,6 @@ struct FunctionFifthView: View {
                                 }
                             }
                             .padding()
-
-                            // Pattern in Hex
                             VStack(alignment: .leading) {
                                 Text("Patern w hex:")
                                     .font(.headline)
@@ -50,17 +43,13 @@ struct FunctionFifthView: View {
                             }
                             .padding()
                         }
-                        .frame(maxWidth: .infinity) // Sprawia, że zawartość jest wyśrodkowana w poziomie
-                        
-                        Spacer() // Spacer z prawej strony, aby wyśrodkować w poziomie
+                        .frame(maxWidth: .infinity)
+                        Spacer()
                     }
-                    
-                    Spacer() // Spacer na dole, aby wyświetlanie zaczynało się od góry
+                    Spacer()
                 }
             } else {
-                // Tryb poziomy (landscape) - HStack z 3 kolumnami
                 HStack(spacing: 20) {
-                    // Kolumna dla numerów seryjnych
                     VStack {
                         Text("NR seryjny RISA:")
                             .font(.headline)
@@ -69,8 +58,6 @@ struct FunctionFifthView: View {
                         }
                     }
                     .frame(width: geometry.size.width / 3)
-
-                    // Kolumna dla napięć
                     VStack {
                         Text("Napięcie:")
                             .font(.headline)
@@ -79,8 +66,6 @@ struct FunctionFifthView: View {
                         }
                     }
                     .frame(width: geometry.size.width / 3)
-
-                    // Kolumna dla wzorów w hex
                     VStack {
                         Text("Patern w hex:")
                             .font(.headline)
@@ -94,7 +79,6 @@ struct FunctionFifthView: View {
             }
         }
         .onAppear {
-            // Subskrybujemy odpowiednie tematy MQTT
             mqttManager.sendMessage(to: "topic/command", message: "?Params")
             mqttManager.subscribeToTopic("topic/Params")
         }
@@ -105,30 +89,24 @@ struct FunctionFifthView: View {
         .padding()
     }
     
-    // Funkcja obsługująca odbiór wiadomości MQTT
     func handleReceivedMessage(_ message: String) {
-        // Możesz rozbić wiadomości na podstawie tematów:
         if message.starts(with: "Serial:") {
             let serial = message.replacingOccurrences(of: "Serial:", with: "").trimmingCharacters(in: .whitespaces)
-            // Dodajemy numer seryjny do tablicy, jeśli jest mniej niż 4
             if serialNumbers.count < 4 {
                 serialNumbers.append(serial)
             }
         } else if message.starts(with: "Voltage:") {
             let voltage = message.replacingOccurrences(of: "Voltage:", with: "").trimmingCharacters(in: .whitespaces)
-            // Dodajemy napięcie do tablicy, jeśli jest mniej niż 4
             if voltages.count < 4 {
                 voltages.append(voltage)
             }
         } else if message.starts(with: "Pattern:") {
             let pattern = message.replacingOccurrences(of: "Pattern:", with: "").trimmingCharacters(in: .whitespaces)
-            // Dodajemy pattern do tablicy, jeśli jest mniej niż 4
             if patternHexs.count < 4 {
                 patternHexs.append(pattern)
             }
         }
 
-        // Upewniamy się, że tablica nie przekroczy 4 elementów
         if serialNumbers.count > 4 { serialNumbers.removeFirst() }
         if voltages.count > 4 { voltages.removeFirst() }
         if patternHexs.count > 4 { patternHexs.removeFirst() }

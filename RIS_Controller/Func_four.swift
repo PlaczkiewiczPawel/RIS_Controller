@@ -11,7 +11,6 @@ struct FunctionFourView: View {
     @StateObject private var mqttManager = MQTTManager()
     let topic = "topic/pattern"
     
-    // Lista przycisków z nazwami i wiadomościami
     let buttons: [(name: String, message: String)] = [
         ("Lewa Strona", "FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00"),
         ("Prawa Strona", "AABBCCDDEEFF00112233445566778899AABBCCDDEEFF00112233445566778899"),
@@ -21,12 +20,11 @@ struct FunctionFourView: View {
         ("Paski Poziome", "0000000000000000FFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFFFFFF")
     ]
     
-    @Environment(\.horizontalSizeClass) var hClass // Sprawdzamy rozmiar klasy poziomej ekranu
+    @Environment(\.horizontalSizeClass) var hClass
     
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 20) {
-                // Jeśli ekran w trybie portretowym, wyświetl przyciski w jednej kolumnie
                 if hClass == .compact {
                     ForEach(buttons, id: \.name) { button in
                         Button(button.name) {
@@ -39,11 +37,7 @@ struct FunctionFourView: View {
                         .cornerRadius(10)
                     }
                 } else {
-                    // Tryb poziomy (landscape): Wyświetl przyciski w kilku kolumnach
-                    let columns = 2 // Określamy liczbę kolumn w trybie poziomym
-//                    let rows = (buttons.count + columns - 1) / columns // Liczymy ile będzie wierszy
-                    
-                    // Stosujemy LazyVGrid w celu wyświetlenia przycisków w kilku kolumnach
+                    let columns = 2
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: columns), spacing: 20) {
                         ForEach(buttons, id: \.name) { button in
                             Button(button.name) {
@@ -56,7 +50,7 @@ struct FunctionFourView: View {
                             .cornerRadius(10)
                         }
                     }
-                    .frame(width: geometry.size.width) // Dopasowujemy szerokość do dostępnej przestrzeni
+                    .frame(width: geometry.size.width)
                     .padding()
                 }
             }

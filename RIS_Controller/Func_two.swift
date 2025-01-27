@@ -21,7 +21,7 @@ struct FunctionTwoView: View {
             TextField("Wprowadź 64-znakowy HEX", text: $hexInput)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
-                .autocapitalization(.allCharacters) // Wymusza duże litery
+                .autocapitalization(.allCharacters)
                 .disableAutocorrection(true)
 
             HStack {
@@ -44,10 +44,9 @@ struct FunctionTwoView: View {
         }
         .padding()
     }
-    
-    /// Sprawdza poprawność wpisanego tekstu jako HEX i wysyła go przez MQTTManager
+
     private func sendHexMessage(_ hexString: String) {
-        let hexPattern = "^[0-9A-Fa-f]{64}$" // Tylko 64 znaki HEX
+        let hexPattern = "^[0-9A-Fa-f]{64}$"
         let regex = try? NSRegularExpression(pattern: hexPattern)
         let range = NSRange(location: 0, length: hexString.utf16.count)
         
@@ -58,10 +57,3 @@ struct FunctionTwoView: View {
         }
     }
 }
-
-// Podgląd w SwiftUI
-//struct MQTTMessageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MQTTMessageView(mqttManager: MQTTManager())
-//    }
-//}

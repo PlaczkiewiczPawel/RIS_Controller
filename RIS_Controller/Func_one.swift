@@ -9,7 +9,6 @@ struct FunctionOneView: View {
         GeometryReader { geometry in
             Group {
                 if hClass == .compact {
-                    // Widok w trybie portretowym
                     VStack {
                         Text("RIS Viewer")
                             .font(.title)
@@ -54,9 +53,7 @@ struct FunctionOneView: View {
                         updateMatrixFromHex(message)
                     }
                 } else {
-                    // Widok w trybie poziomym (landscape)
                     HStack(spacing: 16) {
-                        // Lewa kolumna: Tekst i przycisk
                         VStack {
                             Text("RIS Viewer")
                                 .font(.title)
@@ -77,16 +74,14 @@ struct FunctionOneView: View {
                                 .multilineTextAlignment(.center)
                                 .padding()
                         }
-                        .frame(width: geometry.size.width * 0.2) // 20% szerokości ekranu
+                        .frame(width: geometry.size.width * 0.2)
                         .padding()
-
-                        // Prawa kolumna: Wycentrowana macierz
                         VStack {
                             Spacer()
 
                             let gridWidth = geometry.size.width * 0.70
                             let gridHeight = geometry.size.height
-                            let gridSize = min(gridWidth / 16, gridHeight / 16) // Ustawiamy minimalny rozmiar
+                            let gridSize = min(gridWidth / 16, gridHeight / 16)
 
                             VStack(spacing: 2) {
                                 ForEach(0..<16, id: \.self) { row in
