@@ -10,7 +10,7 @@ import SwiftUI
 struct FunctionThreeView: View {
     @ObservedObject var mqttManager = MQTTManager()
     @State private var generatedMessages: [String] = UserDefaults.standard.stringArray(forKey: "GeneratedMessages") ?? []
-    let topic = "topic/pattern"
+    let topic = "topic/command"
     
     @Environment(\.horizontalSizeClass) var hClass
 

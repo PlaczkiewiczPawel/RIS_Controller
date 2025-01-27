@@ -51,7 +51,7 @@ struct FunctionTwoView: View {
         let range = NSRange(location: 0, length: hexString.utf16.count)
         
         if regex?.firstMatch(in: hexString, options: [], range: range) != nil {
-            mqttManager.sendMessage(to: "topic/pattern",message: hexString)
+            mqttManager.sendMessage(to: "topic/command",message: hexString)
         } else {
             print("Błąd: Niepoprawny format HEX!")
         }

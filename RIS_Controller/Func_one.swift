@@ -145,7 +145,7 @@ struct FunctionOneView: View {
                 hexString.append(String(format: "%X", hexValue))
             }
         }
-        mqttManager.sendMessage(to: "topic/pattern", message: hexString)
+        mqttManager.sendMessage(to: "topic/command", message: hexString)
     }
 }
 
