@@ -17,8 +17,8 @@ class MQTTManager: ObservableObject {
     
     func setupMQTT() {
         let clientID = "iOSClient-\(UUID().uuidString)"
-        mqtt = CocoaMQTT(clientID: clientID, host: "192.168.8.213", port: 1883)
-        mqtt?.keepAlive = 60
+        mqtt = CocoaMQTT(clientID: clientID, host: "192.168.1.191", port: 1883)
+        mqtt?.keepAlive = 3600
         _ = mqtt?.connect()
         handleMQTTEvents()
     }
